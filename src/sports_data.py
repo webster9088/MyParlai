@@ -6,6 +6,13 @@ This module provides functionality to fetch live sports data from The Odds API.
 Required API Keys:
     ODDS_API_KEY: API key from The Odds API (https://the-odds-api.com/)
                   Free tier provides 500 requests per month.
+
+Optional API Keys (for enhanced features):
+    NEWS_API_KEY: API key from NewsData.io for sports news
+    OPENAI_API_KEY: API key from OpenAI for AI-powered analysis
+    OPENWEATHER_API_KEY: API key from OpenWeather for weather data
+    SPORTSDATA_IO_API_KEY: API key from SportsData.io for additional data
+    SPORTS_GAMES_ODDS_API_KEY: API key for Sports Games Odds
 """
 import os
 from typing import Optional
@@ -21,8 +28,13 @@ BASE_URL = "https://api.the-odds-api.com/v4"
 # Default request timeout in seconds
 DEFAULT_TIMEOUT = 30
 
-# Environment variable name for the API key
+# Environment variable names for API keys
 ODDS_API_KEY_ENV = "ODDS_API_KEY"
+NEWS_API_KEY_ENV = "NEWS_API_KEY"
+OPENAI_API_KEY_ENV = "OPENAI_API_KEY"
+OPENWEATHER_API_KEY_ENV = "OPENWEATHER_API_KEY"
+SPORTSDATA_IO_API_KEY_ENV = "SPORTSDATA_IO_API_KEY"
+SPORTS_GAMES_ODDS_API_KEY_ENV = "SPORTS_GAMES_ODDS_API_KEY"
 
 
 class APIKeyMissingError(Exception):

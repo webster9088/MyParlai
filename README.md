@@ -25,12 +25,45 @@ A Python application for building sports parlays with live odds data.
    pip install -r requirements.txt
    ```
 
-3. (Optional) Set up API key for live data:
+3. (Optional) Set up API keys for live data and enhanced features:
    ```bash
-   export ODDS_API_KEY=your_api_key_here
+   cp .env.example .env
+   # Edit .env with your API keys
    ```
-   
-   Get your free API key at [The Odds API](https://the-odds-api.com/)
+
+## API Keys Configuration
+
+This application supports multiple API integrations for comprehensive sports data:
+
+### Required for Live Data
+
+| API | Environment Variable | Description | Get Key |
+|-----|---------------------|-------------|---------|
+| The Odds API | `ODDS_API_KEY` | Live sports odds data | [the-odds-api.com](https://the-odds-api.com/) |
+
+### Optional Enhanced Features
+
+| API | Environment Variable | Description | Get Key |
+|-----|---------------------|-------------|---------|
+| NewsData.io | `NEWS_API_KEY` | Sports related news | [newsdata.io](https://newsdata.io/) |
+| OpenAI | `OPENAI_API_KEY` | AI-powered analysis | [platform.openai.com](https://platform.openai.com/) |
+| OpenWeather | `OPENWEATHER_API_KEY` | Weather reports | [openweathermap.org](https://openweathermap.org/api) |
+| SportsData.io | `SPORTSDATA_IO_API_KEY` | Additional sports data | [sportsdata.io](https://sportsdata.io/) |
+| Sports Games Odds | `SPORTS_GAMES_ODDS_API_KEY` | Additional odds data | [sportsgamesodds.com](https://sportsgamesodds.com/) |
+
+### Setting Up API Keys
+
+1. Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Edit `.env` and add your API keys:
+   ```bash
+   ODDS_API_KEY=your_actual_api_key
+   NEWS_API_KEY=your_news_api_key
+   # ... add other keys as needed
+   ```
 
 ## Usage
 
