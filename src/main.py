@@ -4,12 +4,17 @@ Sports Parlay Picking Program - Main CLI Application.
 
 This program allows users to view live sports odds, build parlays,
 and calculate potential payouts.
+
+Required API Keys:
+    ODDS_API_KEY: For live sports data from The Odds API.
+                  Get your free key at: https://the-odds-api.com/
 """
 import sys
 from typing import Optional
 
 from src.sports_data import (
     SportsDataClient,
+    APIKeyMissingError,
     get_sample_odds_data,
     get_sample_sports_data,
 )
@@ -308,6 +313,24 @@ def main(use_sample: bool = True) -> None:
     Args:
         use_sample: If True, use sample data (default for demo).
     """
+    # Validate API key is available when using live data
+    if not use_sample:
+        client = SportsDataClient()
+        if not client.has_api_key():
+            print("\n" + "=" * 60)
+            print("ERROR: API Key Required for Live Data")
+            print("=" * 60)
+            print("\nTo use live sports data, you need an API key from The Odds API.")
+            print("\nSetup instructions:")
+            print("  1. Get your free API key at: https://the-odds-api.com/")
+            print("  2. Set the environment variable:")
+            print("     export ODDS_API_KEY=your_api_key_here")
+            print("  3. Or create a .env file with: ODDS_API_KEY=your_api_key_here")
+            print("\nAlternatively, run without --live flag to use sample data:")
+            print("  python -m src.main")
+            print("=" * 60 + "\n")
+            sys.exit(1)
+
     picker = ParlayPicker(use_sample_data=use_sample)
     picker.run()
 

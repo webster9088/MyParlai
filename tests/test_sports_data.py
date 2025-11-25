@@ -8,6 +8,8 @@ import requests
 
 from src.sports_data import (
     SportsDataClient,
+    APIKeyMissingError,
+    ODDS_API_KEY_ENV,
     get_sample_odds_data,
     get_sample_sports_data,
 )
@@ -30,6 +32,46 @@ class TestSportsDataClient(unittest.TestCase):
         """Test initialization from environment variable."""
         client = SportsDataClient()
         self.assertEqual(client.api_key, "env_key")
+
+    def test_has_api_key_true(self):
+        """Test has_api_key returns True when key is set."""
+        self.assertTrue(self.client.has_api_key())
+
+    def test_has_api_key_false(self):
+        """Test has_api_key returns False when key is empty."""
+        client = SportsDataClient(api_key="")
+        self.assertFalse(client.has_api_key())
+
+    def test_validate_api_key_success(self):
+        """Test validate_api_key succeeds with valid key."""
+        # Should not raise
+        self.client.validate_api_key()
+
+    def test_validate_api_key_missing(self):
+        """Test validate_api_key raises APIKeyMissingError when key is empty."""
+        client = SportsDataClient(api_key="")
+        with self.assertRaises(APIKeyMissingError) as context:
+            client.validate_api_key()
+        self.assertIn(ODDS_API_KEY_ENV, str(context.exception))
+        self.assertIn("https://the-odds-api.com/", str(context.exception))
+
+    def test_get_sports_without_api_key(self):
+        """Test get_sports raises error without API key."""
+        client = SportsDataClient(api_key="")
+        with self.assertRaises(APIKeyMissingError):
+            client.get_sports()
+
+    def test_get_odds_without_api_key(self):
+        """Test get_odds raises error without API key."""
+        client = SportsDataClient(api_key="")
+        with self.assertRaises(APIKeyMissingError):
+            client.get_odds()
+
+    def test_get_scores_without_api_key(self):
+        """Test get_scores raises error without API key."""
+        client = SportsDataClient(api_key="")
+        with self.assertRaises(APIKeyMissingError):
+            client.get_scores(sport="nfl")
 
     def test_get_sports_success(self):
         """Test successful sports fetch."""
