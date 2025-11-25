@@ -26,7 +26,17 @@ ODDS_API_KEY_ENV = "ODDS_API_KEY"
 
 
 class APIKeyMissingError(Exception):
-    """Exception raised when a required API key is missing."""
+    """
+    Exception raised when a required API key is missing.
+
+    This error is raised when attempting to make an API request without
+    a configured API key. To resolve this error, either:
+    1. Set the ODDS_API_KEY environment variable
+    2. Create a .env file with ODDS_API_KEY=your_key
+    3. Pass the api_key parameter to the SportsDataClient constructor
+
+    Get your free API key at: https://the-odds-api.com/
+    """
 
     pass
 
