@@ -2,6 +2,10 @@
 Sports Data API Client for fetching live sports odds and game data.
 
 This module provides functionality to fetch live sports data from The Odds API.
+
+Required API Keys:
+    ODDS_API_KEY: API key from The Odds API (https://the-odds-api.com/)
+                  Free tier provides 500 requests per month.
 """
 import os
 from typing import Optional
@@ -17,6 +21,25 @@ BASE_URL = "https://api.the-odds-api.com/v4"
 # Default request timeout in seconds
 DEFAULT_TIMEOUT = 30
 
+# Environment variable name for the API key
+ODDS_API_KEY_ENV = "ODDS_API_KEY"
+
+
+class APIKeyMissingError(Exception):
+    """
+    Exception raised when a required API key is missing.
+
+    This error is raised when attempting to make an API request without
+    a configured API key. To resolve this error, either:
+    1. Set the ODDS_API_KEY environment variable
+    2. Create a .env file with ODDS_API_KEY=your_key
+    3. Pass the api_key parameter to the SportsDataClient constructor
+
+    Get your free API key at: https://the-odds-api.com/
+    """
+
+    pass
+
 
 class SportsDataClient:
     """Client for fetching live sports data from The Odds API."""
@@ -29,11 +52,38 @@ class SportsDataClient:
             api_key: Optional API key. If not provided, will try to load from
                      environment variable ODDS_API_KEY.
             timeout: Request timeout in seconds (default: 30).
+
+        Note:
+            To get an API key, visit https://the-odds-api.com/ and sign up
+            for a free account. The free tier provides 500 requests per month.
         """
-        self.api_key = api_key or os.getenv("ODDS_API_KEY", "")
+        self.api_key = api_key or os.getenv(ODDS_API_KEY_ENV, "")
         self.base_url = BASE_URL
         self.session = requests.Session()
         self.timeout = timeout
+
+    def has_api_key(self) -> bool:
+        """
+        Check if an API key is configured.
+
+        Returns:
+            True if API key is set, False otherwise.
+        """
+        return bool(self.api_key)
+
+    def validate_api_key(self) -> None:
+        """
+        Validate that an API key is configured.
+
+        Raises:
+            APIKeyMissingError: If no API key is configured.
+        """
+        if not self.has_api_key():
+            raise APIKeyMissingError(
+                f"No API key configured. Set the {ODDS_API_KEY_ENV} environment "
+                "variable or pass api_key to the constructor. "
+                "Get your free API key at: https://the-odds-api.com/"
+            )
 
     def get_sports(self) -> list:
         """
@@ -41,7 +91,11 @@ class SportsDataClient:
 
         Returns:
             List of available sports with their keys and titles.
+
+        Raises:
+            APIKeyMissingError: If no API key is configured.
         """
+        self.validate_api_key()
         url = f"{self.base_url}/sports"
         params = {"apiKey": self.api_key}
 
@@ -73,7 +127,11 @@ class SportsDataClient:
 
         Returns:
             List of games with odds from various bookmakers.
+
+        Raises:
+            APIKeyMissingError: If no API key is configured.
         """
+        self.validate_api_key()
         url = f"{self.base_url}/sports/{sport}/odds"
         params = {
             "apiKey": self.api_key,
@@ -103,7 +161,11 @@ class SportsDataClient:
 
         Returns:
             List of games with scores.
+
+        Raises:
+            APIKeyMissingError: If no API key is configured.
         """
+        self.validate_api_key()
         url = f"{self.base_url}/sports/{sport}/scores"
         params = {
             "apiKey": self.api_key,
