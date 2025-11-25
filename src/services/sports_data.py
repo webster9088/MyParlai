@@ -2,7 +2,7 @@
 
 import os
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 from dataclasses import dataclass
 
 import requests
@@ -62,7 +62,7 @@ class SportsDataService:
                 self._session.headers["Authorization"] = f"Bearer {self.config.api_key}"
         return self._session
 
-    def _get_cached(self, key: str) -> Optional[any]:
+    def _get_cached(self, key: str) -> Optional[Any]:
         """Get cached data if still valid."""
         if key in self._cache:
             data, timestamp = self._cache[key]
@@ -71,7 +71,7 @@ class SportsDataService:
             del self._cache[key]
         return None
 
-    def _set_cached(self, key: str, data: any) -> None:
+    def _set_cached(self, key: str, data: Any) -> None:
         """Cache data with current timestamp."""
         self._cache[key] = (data, datetime.utcnow().timestamp())
 

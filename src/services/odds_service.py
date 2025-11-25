@@ -3,7 +3,7 @@
 import os
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 import requests
 
@@ -69,7 +69,7 @@ class OddsService:
             self._session = requests.Session()
         return self._session
 
-    def _get_cached(self, key: str) -> Optional[any]:
+    def _get_cached(self, key: str) -> Optional[Any]:
         """Get cached data if still valid."""
         if key in self._cache:
             data, timestamp = self._cache[key]
@@ -78,7 +78,7 @@ class OddsService:
             del self._cache[key]
         return None
 
-    def _set_cached(self, key: str, data: any) -> None:
+    def _set_cached(self, key: str, data: Any) -> None:
         """Cache data with current timestamp."""
         self._cache[key] = (data, datetime.utcnow().timestamp())
 

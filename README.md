@@ -21,7 +21,7 @@ An AI-powered sports Parlay picking bot that leverages real-time data for intell
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/MyParlai.git
+git clone https://github.com/webster9088/MyParlai.git
 cd MyParlai
 
 # Create virtual environment
