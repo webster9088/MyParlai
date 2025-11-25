@@ -45,7 +45,7 @@ This application supports multiple API integrations for comprehensive sports dat
 
 | API | Environment Variable | Description | Get Key |
 |-----|---------------------|-------------|---------|
-| NewsData.io | `NEWS_API_KEY` | Sports related news | [newsdata.io](https://newsdata.io/) |
+| NewsData.io | `NEWS_API_KEY` | Sports-related news | [newsdata.io](https://newsdata.io/) |
 | OpenAI | `OPENAI_API_KEY` | AI-powered analysis | [platform.openai.com](https://platform.openai.com/) |
 | OpenWeather | `OPENWEATHER_API_KEY` | Weather reports | [openweathermap.org](https://openweathermap.org/api) |
 | SportsData.io | `SPORTSDATA_IO_API_KEY` | Additional sports data | [sportsdata.io](https://sportsdata.io/) |
