@@ -14,21 +14,26 @@ load_dotenv()
 # The Odds API base URL
 BASE_URL = "https://api.the-odds-api.com/v4"
 
+# Default request timeout in seconds
+DEFAULT_TIMEOUT = 30
+
 
 class SportsDataClient:
     """Client for fetching live sports data from The Odds API."""
 
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self, api_key: Optional[str] = None, timeout: int = DEFAULT_TIMEOUT):
         """
         Initialize the sports data client.
 
         Args:
             api_key: Optional API key. If not provided, will try to load from
                      environment variable ODDS_API_KEY.
+            timeout: Request timeout in seconds (default: 30).
         """
         self.api_key = api_key or os.getenv("ODDS_API_KEY", "")
         self.base_url = BASE_URL
         self.session = requests.Session()
+        self.timeout = timeout
 
     def get_sports(self) -> list:
         """
@@ -41,7 +46,7 @@ class SportsDataClient:
         params = {"apiKey": self.api_key}
 
         try:
-            response = self.session.get(url, params=params, timeout=30)
+            response = self.session.get(url, params=params, timeout=self.timeout)
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
@@ -78,7 +83,7 @@ class SportsDataClient:
         }
 
         try:
-            response = self.session.get(url, params=params, timeout=30)
+            response = self.session.get(url, params=params, timeout=self.timeout)
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
@@ -107,7 +112,7 @@ class SportsDataClient:
         }
 
         try:
-            response = self.session.get(url, params=params, timeout=30)
+            response = self.session.get(url, params=params, timeout=self.timeout)
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
